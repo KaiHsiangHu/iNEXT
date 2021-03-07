@@ -723,34 +723,7 @@ EstDis <- function(x, datatype=c("abundance", "incidence")){
 #
 #
 ###############################################
-#' Asymptotic diversity q profile 
-#' 
-#' \code{AsyD} The estimated and empirical diversity of order q 
-#' 
-#' @param x a matrix/data.frame (species by sites), or list of species abundances or incidence frequencies. If \code{datatype = "incidence_freq"}, then the first entry of the input data must be total number of sampling units in each column or list.
-#' @param q a nonnegative value or sequence specifying the diversity order. Default is seq(0, 2, by = 0.2).
-#' @param datatype  data type of input data: individual-based abundance data (\code{datatype = "abundance"}),  
-#' or species-by-site incidence frequencies data (\code{datatype = "incidence_freq"}). Default is "abundance".
-#' @param nboot a positive integer specifying the number of bootstrap replications when assessing sampling uncertainty and constructing confidence intervals. Enter 0 to skip the bootstrap procedures. Default is 50.
-#' @param conf a positive number < 1 specifying the level of confidence interval. Default is 0.95.
-#' @return a table of diversity q profile by 'Estimated' and 'Empirical'
-#' 
-#' @examples
-#' ## example for abundance based data (list of vector)
-#' # abundance data
-#' data(spider)
-#' out1 <- AsyD(spider, datatype = "abundance")
-#' out1
-#' 
-#' ## example for incidence frequencies based data (list of data.frame)
-#' data(ant)
-#' out2 <- AsyD(ant, datatype = "incidence_freq", nboot = 0)
-#' out2
-#' 
-#' 
-#' @references
-#' Chao,A. and Jost,L.(2015).Estimating diversity and entropy profiles via discovery rates of new species.
-#' @export
+# Asymptotic diversity q profile 
 AsyD <- function(x, q = seq(0, 2, 0.2), datatype = "abundance", nboot = 50, conf = 0.95){
   if(datatype == "incidence"){
     stop('datatype="incidence" was no longer supported, 
@@ -834,30 +807,6 @@ AsyD <- function(x, q = seq(0, 2, 0.2), datatype = "abundance", nboot = 50, conf
 #
 #
 ###############################################
-#' ggplot for Asymptotic diversity
-#'
-#' \code{ggAsyD} Plots q-profile based on the outcome of \code{AsyD} using the ggplot2 package.\cr
-#' It will only show the confidence interval of 'Estimated'.
-#'
-#' @param outcome the outcome of the functions \code{AsyD} .\cr
-#' @return a figure of estimated sample completeness with order q\cr\cr
-#'
-#' @examples
-#' ## Type (1) example for abundance-based data
-#' ## Ex.1
-#' data(spider)
-#' out1 <- AsyD(spider, datatype = "abundance")
-#' ggAsyD(out1)
-#' 
-#' ## Type (2) example for incidence-based data
-#'
-#' ## Ex.2
-#' data(ant)
-#' out2 <- AsyD(ant, datatype = "incidence_freq", nboot = 0)
-#' ggAsyD(out2)
-#'
-#' @export
-
 ggAsyD <- function(outcome){
   cbPalette <- rev(c("#999999", "#E69F00", "#56B4E9", "#009E73",
                      "#330066", "#CC79A7", "#0072B2", "#D55E00"))

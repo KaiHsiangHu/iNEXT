@@ -40,7 +40,7 @@ Diversity_profile.inc <- function(data,q){
   Sobs <- length(Yi)
   A <- AA.inc(data)
   Q0hat <- ifelse(Q2 == 0, (nT - 1) / nT * Q1 * (Q1 - 1) / 2, (nT - 1) / nT * Q1 ^ 2/ 2 / Q2)
-  B <- sapply(q,function(q) ifelse(A==1,0,(Q1/nT)*(1-A)^(-nT+1)*(A^(q-1)-sum(sapply(c(0:(nT-1)),function(r) choose(q-1,r)*(A-1)^r)))))
+  B <- sapply(q,function(q) ifelse(A==1,0,(Q1/nT)*(1-A)^(-nT+1)*round((A^(q-1)-sum(sapply(c(0:(nT-1)),function(r) choose(q-1,r)*(A-1)^r))), 12)))
   qD <- (U/nT)^(q/(q-1))*(qDFUN(q,Yi,nT) + B)^(1/(1-q))
   qD[which(q==0)] = Sobs+Q0hat
   yi <- Yi[Yi>=1 & Yi<=(nT-1)]
@@ -48,7 +48,7 @@ Diversity_profile.inc <- function(data,q){
     (yi[i]/nT)*sum(1/c(yi[i]:(nT-1)))
   }
   if(sum(q %in% 1)>0){
-    C_ <- ifelse(A==1,0,(Q1/nT)*(1-A)^(-nT+1)*(-log(A)-sum(sapply(c(1:(nT-1)),function(r) (1-A)^r/r))))
+    C_ <- ifelse(A==1,0,(Q1/nT)*(1-A)^(-nT+1)*(round(-log(A)-sum(sapply(c(1:(nT-1)),function(r) (1-A)^r/r)), 12)))
     qD[which(q==1)] <- exp((nT/U)*( sum(sapply(c(1:length(yi)),function(i) delta(i))) + C_)+log(U/nT))
   }
   return(qD)

@@ -508,6 +508,12 @@ iNEXT.Sam <- function(Spec, t=NULL, q=0, endpoint=2*max(Spec), knots=40, se=TRUE
 #' @param conf a positive number < 1 specifying the level of confidence interval, default is 0.95.
 #' @param nboot an integer specifying the number of replications.
 #' @importFrom reshape2 dcast
+#' @importFrom stats rmultinom
+#' @importFrom stats qnorm
+#' @importFrom stats sd
+#' @importFrom stats rbinom
+#' @importFrom stats optimize
+#' @importFrom stats quantile
 #' @return a list of three objects: \code{$DataInfo} for summarizing data information; 
 #' \code{$iNextEst} for showing diversity estimates for rarefied and extrapolated samples along with related statistics;
 #' and \code{$AsyEst} for showing asymptotic diversity estimates along with related statistics.  
@@ -802,36 +808,6 @@ AsyD <- function(x, q = seq(0, 2, 0.2), datatype = "abundance", nboot = 50, conf
   }
   return(out)
 }
-
-
-#
-#
-###############################################
-ggAsyD <- function(outcome){
-  cbPalette <- rev(c("#999999", "#E69F00", "#56B4E9", "#009E73",
-                     "#330066", "#CC79A7", "#0072B2", "#D55E00"))
-  if (sum(unique(outcome$method) %in% c("Estimated", "Empirical")) == 0)
-    stop("Please use the outcome from specified function 'AsyD'")
-  ggplot(outcome, aes(x=Order.q, y=qD, colour=Assemblage, lty=method)) +
-    geom_line(size=1.2) +
-    scale_colour_manual(values = cbPalette) +
-    geom_ribbon(data = outcome[outcome$method=="Estimated",],
-                aes(ymin=qD.LCL, ymax=qD.UCL, fill=Assemblage), alpha=0.2, linetype=0) +
-    # geom_ribbon(data = outcome[outcome$method=="Empirical",],
-    #             aes(ymin=qD.LCL, ymax=qD.UCL, fill=Assemblage), alpha=0.2, linetype=0) +
-    scale_fill_manual(values = cbPalette) +
-    scale_linetype_manual(values = c("Estimated"=1, "Empirical"=2)) +
-    labs(x="Order q", y="Species diversity") +
-    # theme_bw(base_size = 18) +
-    theme(text=element_text(size=18)) +
-    theme(legend.position="bottom", legend.box = "vertical",
-          legend.key.width = unit(1.2,"cm"),
-          # plot.margin = unit(c(1.5,0.3,1.2,0.3), "lines"),
-          legend.title=element_blank(),
-          legend.margin=margin(0,0,0,0),
-          legend.box.margin = margin(-10,-10,-5,-10))
-}
-
 
 
 ##

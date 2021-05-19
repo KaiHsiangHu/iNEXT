@@ -10,6 +10,14 @@
 #' @param show.main a logical variable to display title.
 #' @param col a vector for plotting color
 #' @param ... arguments to be passed to methods, such as graphical parameters (\code{\link{par}}).
+#' @importFrom grDevices adjustcolor
+#' @importFrom grDevices hcl
+#' @importFrom graphics legend
+#' @importFrom graphics lines
+#' @importFrom graphics par
+#' @importFrom graphics points
+#' @importFrom graphics polygon
+#' @importFrom graphics title
 #' @examples
 #' data(spider)
 #' # single-assemblage abundance data

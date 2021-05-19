@@ -527,7 +527,7 @@ iNEXT.Sam <- function(Spec, t=NULL, q=0, endpoint=2*max(Spec), knots=40, se=TRUE
 #' ## example for abundance based data (data.frame)
 #' data(bird)
 #' out2 <- iNEXT(bird, q=0, datatype="abundance")
-#' ggiNEXT(out2)
+#' out2
 #' \dontrun{
 #' ## example for incidence frequencies based data (list of data.frame)
 #' data(ant)
@@ -642,6 +642,7 @@ iNEXT <- function(x, q=0, datatype="abundance", size=NULL, endpoint=NULL, knots=
                 coverage_based = do.call(rbind,lapply(out,  function(out_){out_[[2]]})))
     
     index <- AsyD(x = x,q = c(0,1,2),datatype = ifelse(datatype=='abundance','abundance','incidence_freq'),nboot = 100,conf = 0.95)
+    index = index[order(index$Assemblage),]
     LCL <- index$qD.LCL[index$method=='Estimated']
     UCL <- index$qD.UCL[index$method=='Estimated']
     index <- dcast(index,formula = Assemblage+Order.q~method,value.var = 'qD')
@@ -673,6 +674,7 @@ iNEXT <- function(x, q=0, datatype="abundance", size=NULL, endpoint=NULL, knots=
                 coverage_based = do.call(rbind,lapply(out,  function(out_){out_[[2]]})))
     
     index <- AsyD(x = x,q = c(0,1,2),datatype = ifelse(datatype=='abundance','abundance','incidence_freq'),nboot = 100,conf = 0.95)
+    index = index[order(index$Assemblage),]
     LCL <- index$qD.LCL[index$method=='Estimated']
     UCL <- index$qD.UCL[index$method=='Estimated']
     index <- dcast(index,formula = Assemblage+Order.q~method,value.var = 'qD')

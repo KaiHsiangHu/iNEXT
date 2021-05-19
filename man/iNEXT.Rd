@@ -59,7 +59,7 @@ out1$iNextEst # showing diversity estimates with rarefied and extrapolated.
 ## example for abundance based data (data.frame)
 data(bird)
 out2 <- iNEXT(bird, q=0, datatype="abundance")
-ggiNEXT(out2)
+out2
 \dontrun{
 ## example for incidence frequencies based data (list of data.frame)
 data(ant)

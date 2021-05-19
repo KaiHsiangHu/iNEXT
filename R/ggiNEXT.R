@@ -269,7 +269,8 @@ fortify.iNEXT <- function(model, data = model$iNextEst, type = 1, ...) {
   }else if(type==2L){
     z <- z$size_based
     if(length(unique(z$Order.q))>1){
-      z <- subset(z, Order.q==unique(z$Order.q)[1])
+      # z <- subset(z, Order.q==unique(z$Order.q)[1])
+      z <- z[z$Order.q==unique(z$Order.q)[1],]
     }
     z$x <- z[,2]
     z$y <- z$SC

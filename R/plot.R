@@ -74,7 +74,8 @@ plot.iNEXT <- function(x, type=1, se=TRUE, show.legend=TRUE, show.main=TRUE, col
     # }
   }else if(type==2L){
     if(length(unique(z$Order.q))>1){
-      z <- subset(z, Order.q==unique(z$Order.q)[1])
+      # z <- subset(z, Order.q==unique(z$Order.q)[1])
+      z <- z[z$Order.q==unique(z$Order.q)[1],]
     }
     # z$x <- z[,1]
     # z$y <- z$SC
@@ -120,7 +121,8 @@ plot.iNEXT <- function(x, type=1, se=TRUE, show.legend=TRUE, show.main=TRUE, col
   
   for(j in 1:length(ORDER)){
     if(se==TRUE){
-      tmp.sub <- subset(z, Order.q==ORDER[j])
+      # tmp.sub <- subset(z, Order.q==ORDER[j])
+      tmp.sub <- z[z$Order.q==ORDER[j],]
       tmp.j <- data.frame(Assemblage=tmp.sub$Assemblage, Order.q=tmp.sub$Order.q,
                           Method=tmp.sub$Method, 
                           x=tmp.sub$x, y=tmp.sub$y,
@@ -128,7 +130,8 @@ plot.iNEXT <- function(x, type=1, se=TRUE, show.legend=TRUE, show.main=TRUE, col
       
       plot(y.upr~x, data=tmp.j, type="n", xlab="", ylab="", ...)
     }else{
-      tmp.sub <- subset(z, Order.q==ORDER[j])
+      # tmp.sub <- subset(z, Order.q==ORDER[j])
+      tmp.sub <- z[z$Order.q==ORDER[j],]
       
       tmp.j <- data.frame(Assemblage=tmp.sub$Assemblage, Order.q=tmp.sub$Order.q,
                           Method=tmp.sub$Method, 
@@ -138,13 +141,17 @@ plot.iNEXT <- function(x, type=1, se=TRUE, show.legend=TRUE, show.main=TRUE, col
     }
     
     for(i in 1:length(SITE)){
-      tmp <- subset(tmp.j, Assemblage==SITE[i])
+      # tmp <- subset(tmp.j, Assemblage==SITE[i])
+      tmp <- tmp.j[tmp.j$Assemblage==SITE[i],]
       if(se==TRUE){
         conf.reg(x=tmp$x, LCL=tmp$y.lwr, UCL=tmp$y.upr, border=NA, col=adjustcolor(col[i], 0.25))
       }
-      lines(y~x, data=subset(tmp, Method=="Rarefaction"), lty=1, lwd=2, col=col[i])
-      lines(y~x, data=subset(tmp, Method=="Extrapolation"), lty=2, lwd=2, col=col[i])
-      points(y~x, data=subset(tmp, Method=="Observed"), pch=pch[i], cex=2, col=col[i])
+      # lines(y~x, data=subset(tmp, Method=="Rarefaction"), lty=1, lwd=2, col=col[i])
+      lines(y~x, data=tmp[tmp$Method=="Rarefaction",], lty=1, lwd=2, col=col[i])
+      # lines(y~x, data=subset(tmp, Method=="Extrapolation"), lty=2, lwd=2, col=col[i])
+      lines(y~x, data=tmp[tmp$Method=="Extrapolation",], lty=2, lwd=2, col=col[i])
+      # points(y~x, data=subset(tmp, Method=="Observed"), pch=pch[i], cex=2, col=col[i])
+      points(y~x, data=tmp[tmp$Method=="Observed",], pch=pch[i], cex=2, col=col[i])
       
     }
     if(show.legend==TRUE){
@@ -185,7 +192,8 @@ print.iNEXT <- function(x, ...){
     res <- lapply((x$iNextEst), function(y){
       Assemblages <- unique(x$iNextEst$size_based$Assemblage)
       tmp <- lapply(1:length(Assemblages),function(i){
-        y_each <- subset(y, Assemblage==Assemblages[i])
+        # y_each <- subset(y, Assemblage==Assemblages[i])
+        y_each <- y[y$Assemblage==Assemblages[i],]
         m <- quantile(y_each[,2], type = 1)
         y_each[y_each[,2]%in%m,]
       })
